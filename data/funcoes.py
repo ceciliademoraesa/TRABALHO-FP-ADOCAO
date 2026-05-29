@@ -54,16 +54,117 @@ def visualizar_animal(escolha):
             campo = linha.split(",")
             if id_verificacao_animal == campo[0]:
                 animal_encontrado += 1 
-                print(f"  NOME: {campo[0]}")
-                print(f"  IDADE: {campo[1]}")
-                print(f"  ESPECIE: {campo[2]}")
-                print(f"  RAÇA: {campo[3]}")
-                print(f"  DATA DE CHEGADA: {campo[4]}")
-                print(f"  ESTADO DE SAÚDE: {campo[5]}")
+                print(f"  NOME: {campo[1]}")
+                print(f"  IDADE: {campo[2]}")
+                print(f"  ESPECIE: {campo[3]}")
+                print(f"  RAÇA: {campo[4]}")
+                print(f"  DATA DE CHEGADA: {campo[5]}")
+                print(f"  ESTADO DE SAÚDE: {campo[6]}")
 
         if animal_encontrado == 0: 
             os.system("cls")
             print("\nId inválido.")
+
+
+def editar_animal(escolha):
+    if escolha == 3:
+        os.system("cls")
+
+        id_edicao = input("Escolha o ID de orçamento que deseja atualizar: ")
+
+        with open("data/animais.csv", "r", encoding="utf-8") as arquivo:
+            linhas = arquivo.readlines()
+
+        encontrado = False
+        linhas_novas = []
+
+        def pedir_float_enter(mensagem, atual):
+            while True:
+                entrada = input(mensagem)
+
+                if entrada == "":
+                    return atual
+
+                try:
+                    return str(float(entrada))
+
+                except ValueError:
+                    print("\nInforme um valor numérico válido!")
+
+        for linha in linhas:
+            campos = linha.strip().split(",")
+
+            if campos[0] == "id_orcamento":
+                linhas_novas.append(linha)
+                continue
+
+            if campos[0] == id_edicao:
+                encontrado = True
+
+                print(f"\Animal {id_edicao} encontrado!")
+                print("Para manter o valor atual, deixe o campo em branco.\n")
+
+                nome = input(f"Nome [{campos[1]}]: ").lower() or campos[1]
+                idade = input(f"Idade [{campos[2]}]: ").lower() or campos[2]
+                especie = input(f"Espécie [{campos[3]}]: ").lower() or campos[2]
+                raca = input(f"Raca[{campos[3]}]: ").lower() or campos[3]
+                data_de_chegada = pedir_float_enter(f"Data de chegada [{campos[4]}]: ",campos[4])
+                estado_de_saude = pedir_float_enter(f"Estado de saúde [{campos[5]}]: ",campos[5])
+                
+
+                nova_linha = (f"{id_edicao},{nome},{idade},{especie},{raca},{data_de_chegada}\n")
+                linhas_novas.append(nova_linha)
+
+            else:
+                linhas_novas.append(linha)
+
+        if not encontrado:
+            print("ID não encontrado.")
+            return
+
+        # Reescreve arquivo
+        with open("data/animais.csv", "w", encoding="utf-8") as arquivo:
+            arquivo.writelines(linhas_novas)
+
+        print(f"Animal {id_edicao} atualizado com sucesso!")
+
+def excluir_animal(escolha):
+    if escolha == 4:
+        os.system("cls")
+
+        id_excluir = input("Informe o ID do orçamento que deseja deletar: ")
+
+        with open("data/animais.csv", "r", encoding="utf-8") as arquivo:
+            linhas = arquivo.readlines()
+
+        encontrado = False
+        linhas_novas = []
+
+        for linha in linhas:
+            campos = linha.strip().split(",")
+
+            if campos[0] == "id_animal":
+                linhas_novas.append(linha)
+                continue
+
+            if campos[0] == id_excluir:
+                encontrado = True
+                confirmacao = input(f"\nTem certeza que deseja deletar o animal {id_excluir}? (s/n): ").lower()
+                if confirmacao != "s":
+                    print("\nOperação cancelada.")
+                    return
+            else:
+                linhas_novas.append(linha)
+
+        if not encontrado:
+            print("ID não encontrado.")
+            return
+
+        with open("data/animais.csv", "w", encoding="utf-8") as arquivo:
+            arquivo.writelines(linhas_novas)
+
+        print(f"Animal {id_excluir} deletado com sucesso!")
+
         
 
 

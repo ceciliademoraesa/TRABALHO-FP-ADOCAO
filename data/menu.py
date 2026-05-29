@@ -9,7 +9,7 @@ MENU_PRINCIPAL = """
 ║  [3] - Editar animal             ║
 ║  [4] - Excluir animal            ║
 ║  [5] - Sugestões personalizadas  ║
-║  [6] - *EXTRA
+║  [6] - *EXTRA                    ║
 ║  [7] - Sair                      ║
 ╚══════════════════════════════════╝
 
