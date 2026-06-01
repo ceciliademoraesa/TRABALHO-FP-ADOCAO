@@ -165,7 +165,346 @@ def excluir_animal(escolha):
 
         print(f"Animal {id_excluir} deletado com sucesso!")
 
-        
+        animais = [] 
+tarefas = [] 
+
+def data_hoje():
+    return datetime.date.today()
+ 
+def formatar_data(data_str):
+    try:
+        return datetime.datetime.strptime(data_str, "%d/%m/%Y").date()
+    except ValueError:
+        return None
+
+def status_tarefa(t):
+    hoje = data_hoje()
+    if t[5] == "Concluída":
+        return "Tarefa concluída"
+    elif t[3] < hoje:
+        return "Tarefa atrasada"
+    else:
+        return "Tarefa pendente"
 
 
-       
+def buscar_animal_por_id(id_buscado):
+    for a in animais:
+        if a[0] == id_buscado:
+            return a
+    return None
+
+
+def criar_tarefa():
+    print("  \nCRIAR TAREFA / CUIDADO")
+    if len(animais) == 0:
+        print("\n Cadastre um animal primeiro!")
+        return
+
+    print("\nAnimais disponíveis:")
+    for a in animais:
+        print(f"    #{a[0]} – {a[1]} ({a[2]})")
+
+    
+    try:
+        id_animal = int(input("  ID do animal    : "))
+    except ValueError:
+        print(" ID inválido!")
+        return
+
+    animal = buscar_animal_por_id(id_animal)
+    if animal is None:
+        print(" Animal não encontrado!")
+        return
+
+    print(f"\n  Animal: {animal[1]}")
+    print()
+    print("  Tipos de cuidado:")
+    print("  1 – Vacina          2 – Banho")
+    print("  3 – Consulta Vet.   4 – Treino")
+    print("  5 – Vermifugação    6 – Outro")
+
+    opcao_tipo = input("\n  Escolha o tipo (1-6): ").strip()
+    tipos = {
+        "1": "Vacina", "2": "Banho", "3": "Consulta Vet.",
+        "4": "Treino", "5": "Vermifugação", "6": "Outro"
+    }
+
+    if opcao_tipo not in tipos:
+        print(" Opção inválida!")
+        return
+
+    tipo = tipos[opcao_tipo]
+
+    data_str  = input("  Data prevista (DD/MM/AAAA): ").strip()
+    data_prev = formatar_data(data_str)
+    if data_prev is None:
+        print(" Data inválida! Use DD/MM/AAAA.")
+        return
+
+    responsavel = input("  Responsável     : ").strip()
+    if responsavel == "":
+        print(" Responsável é obrigatório!")
+        return
+
+    novo_id = gerar_id()
+    tarefas.append([novo_id, id_animal, tipo, data_prev, responsavel, "Pendente"])
+    print(f"\n Tarefa '{tipo}' para '{animal[1]}' criada com ID #{novo_id}!")
+
+
+
+def ler_tarefas():
+    """Lista todas as tarefas cadastradas."""
+    print("  [R] LISTAR TODAS AS TAREFAS")
+
+    if len(tarefas) == 0:
+        print("  Nenhuma tarefa cadastrada ainda.")
+        return
+
+    for t in tarefas:
+        animal      = buscar_animal_por_id(t[1])
+        nome_animal = animal[1] if animal is not None else "Desconhecido"
+        print(f"\n  ID        : #{t[0]}")
+        print(f"  Animal    : {nome_animal}")
+        print(f"  Tipo      : {t[2]}")
+        print(f"  Data      : {t[3].strftime('%d/%m/%Y')}")
+        print(f"  Responsável: {t[4]}")
+        print(f"  Status    : {status_tarefa(t)}")
+
+
+def ler_tarefa_por_id():
+    print(" BUSCAR TAREFA POR ID")
+    if len(tarefas) == 0:
+        print("  Nenhuma tarefa cadastrada.")
+        return
+
+    try:
+        id_tarefa = int(input("  ID da tarefa: "))
+    except ValueError:
+        print(" ID inválido!")
+        return
+
+    for t in tarefas:
+        if t[0] == id_tarefa:
+            animal      = buscar_animal_por_id(t[1])
+            nome_animal = animal[1] if animal else "Desconhecido"
+            print("  DETALHES DA TAREFA")
+            print(f"  ID        : #{t[0]}")
+            print(f"  Animal    : {nome_animal}")
+            print(f"  Tipo      : {t[2]}")
+            print(f"  Data      : {t[3].strftime('%d/%m/%Y')}")
+            print(f"  Responsável: {t[4]}")
+            print(f"  Status    : {status_tarefa(t)}")
+            return
+
+    print(" Tarefa não encontrada!")
+
+
+def ler_tarefas_por_animal():
+    """Lista tarefas filtradas por animal."""
+    print("  [R] TAREFAS POR ANIMAL")
+    if len(animais) == 0:
+        print("  Nenhum animal cadastrado.")
+        return
+
+    for a in animais:
+        print(f"    #{a[0]} – {a[1]}")
+
+    try:
+        id_animal = int(input("  ID do animal: "))
+    except ValueError:
+        print(" ID inválido!")
+        return
+
+    animal = buscar_animal_por_id(id_animal)
+    if animal is None:
+        print(" Animal não encontrado!")
+        return
+    print(f"  TAREFAS DE: {animal[1].upper()}")
+
+    encontrou = False
+    for t in tarefas:
+        if t[1] == id_animal:
+            encontrou = True
+            print(f"  #{t[0]} | {t[2]:<16} | {t[3].strftime('%d/%m/%Y')} | {t[4]:<12} | {status_tarefa(t)}")
+
+    if not encontrou:
+        print("  Nenhuma tarefa para este animal.")
+
+
+def atualizar_tarefa():
+    print("ATUALIZAR TAREFA")
+    if len(tarefas) == 0:
+        print("  Nenhuma tarefa cadastrada.")
+        return                                                                                                 
+    for t in tarefas:
+        animal      = buscar_animal_por_id(t[1])
+        nome_animal = animal[1] if animal else "?"
+        print(f"  #{t[0]} | {t[2]:<16} | {nome_animal:<12} | {status_tarefa(t)}")
+
+  
+    try:
+        id_tarefa = int(input("  ID da tarefa a atualizar: "))
+    except ValueError:
+        print(" ID inválido!")
+        return
+
+    tarefa = None
+    for t in tarefas:
+        if t[0] == id_tarefa:
+            tarefa = t
+            break
+
+    if tarefa is None:
+        print(" Tarefa não encontrada!")
+        return
+
+    print(f"  [U] EDITANDO TAREFA #{tarefa[0]}")
+    print("  (Pressione ENTER para manter o valor atual)\n")
+
+    print("  Tipos de cuidado:")
+    print("  1 – Vacina          2 – Banho")
+    print("  3 – Consulta Vet.   4 – Treino")
+    print("  5 – Vermifugação    6 – Outro")
+    tipos = {
+        "1": "Vacina", "2": "Banho", "3": "Consulta Vet.",
+        "4": "Treino", "5": "Vermifugação", "6": "Outro"
+    }
+    opcao_tipo = input(f"\n  Novo tipo (atual: {tarefa[2]}) [1-6]: ").strip()
+    if opcao_tipo != "":
+        if opcao_tipo not in tipos:
+            print(" Opção inválida! Tipo não alterado.")
+        else:
+            tarefa[2] = tipos[opcao_tipo]
+
+    data_str = input(f"  Nova data (atual: {tarefa[3].strftime('%d/%m/%Y')}) DD/MM/AAAA: ").strip()
+    if data_str != "":
+        nova_data = formatar_data(data_str)
+        if nova_data is None:
+            print("  Data inválida! Data não alterada.")
+        else:
+            tarefa[3] = nova_data
+
+    novo_resp = input(f"  Novo responsável (atual: {tarefa[4]}): ").strip()
+    if novo_resp != "":
+        tarefa[4] = novo_resp
+    print(f"\n  Status atual: {status_tarefa(tarefa)}")
+    print("  1 – Pendente   2 – Concluída")
+    opcao_status = input("  Novo status (ENTER para manter): ").strip()
+    if opcao_status == "1":
+        tarefa[5] = "Pendente"
+    elif opcao_status == "2":
+        tarefa[5] = "Concluída"
+
+    print(f"\n  Tarefa #{tarefa[0]} atualizada com sucesso!")
+  
+
+
+
+def deletar_tarefa():
+    print("DELETAR TAREFA")
+    if len(tarefas)==0:
+        print("Nenhuma tarefa cadastrada.")
+        return
+
+    for t in tarefas:
+        animal      = buscar_animal_por_id(t[1])
+        nome_animal = animal[1] if animal else "?"
+        print(f"  #{t[0]} | {t[2]:<16} | {nome_animal:<12} | {status_tarefa(t)}")
+
+    try:
+        id_tarefa = int(input("  ID da tarefa a deletar: "))
+    except ValueError:
+        print(" ID inválido!")
+        return
+
+    for i in range(len(tarefas)):
+        if tarefas[i][0] == id_tarefa:
+            animal      = buscar_animal_por_id(tarefas[i][1])
+            nome_animal = animal[1] if animal else "?"
+            tipo        = tarefas[i][2]
+
+            print(f"\nDeseja deletar a tarefa '{tipo}' de '{nome_animal}'?")
+            confirmacao = input("  Digite S para confirmar: ").strip().upper()
+
+            if confirmacao == "S":
+                tarefas.pop(i)
+                print(f"\n Tarefa '{tipo}' deletada com sucesso!")
+            else:
+                print("\n Operação cancelada.")
+            return
+
+    print(" Tarefa não encontrada!")
+
+
+
+def resumo_geral():
+    print("           RESUMO GERAL")
+
+    total_animais = len(animais)
+    total_tarefas = len(tarefas)
+    concluidas    = 0
+    pendentes     = 0
+    atrasadas     = 0
+    hoje          = data_hoje()
+
+    for t in tarefas:
+        if t[5] == "Concluída":
+            concluidas += 1
+        elif t[3] < hoje:
+            atrasadas  += 1
+        else:
+            pendentes  += 1
+
+    print(f" Animais cadastrados  : {total_animais}")
+    print(f" Total de tarefas     : {total_tarefas}")
+    print(f" Concluídas           : {concluidas}")
+    print(f" Pendentes            : {pendentes}")
+    print(f" Atrasadas            : {atrasadas}")
+    print(f"\n Data de hoje         : {hoje.strftime('%d/%m/%Y')}")
+    
+
+
+def menu_leitura():
+    while True:
+        print("CONSULTAR TAREFAS")
+        print("  1 – Listar todas as tarefas")
+        print("  2 – Buscar tarefa por ID")
+        print("  3 – Listar tarefas por animal")
+        print("  0 – Voltar")
+        opcao = input("  Opção: ").strip()
+
+        if opcao == "1":
+            ler_tarefas()
+        elif opcao == "2":
+            ler_tarefa_por_id()
+        elif opcao == "3":
+            ler_tarefas_por_animal()
+        elif opcao == "0":
+            break
+        else:
+            print(" Opção inválida!")
+
+
+def menu_tarefas():
+    while True:
+        print("     MENU – TAREFAS (CRUD)")
+        print("  1 – Criar tarefa")
+        print("  2 – Consultar tarefas")
+        print("  3 – Atualizar tarefa")
+        print("  4 – Deletar tarefa")
+        print("  0 – Voltar")
+
+        opcao = input("  Opção: ").strip()
+
+        if opcao == "1":
+            criar_tarefa()
+        elif opcao == "2":
+            menu_leitura()
+        elif opcao == "3":
+            atualizar_tarefa()
+        elif opcao == "4":
+            deletar_tarefa()
+        elif opcao == "0":
+            break
+        else:
+            print(" Opção inválida!")
