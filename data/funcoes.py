@@ -165,7 +165,7 @@ def excluir_animal(escolha):
 
         print(f"Animal {id_excluir} deletado com sucesso!")
 
-        animais = [] 
+animais = [] 
 tarefas = [] 
 
 def data_hoje():
