@@ -508,3 +508,88 @@ def menu_tarefas():
             break
         else:
             print(" Opção inválida!")
+    
+def sugerir_cuidados():
+    print("\n  SUGESTÕES DE CUIDADOS")
+    
+    if len(animais) == 0:
+        print("  NENHUM ANIMAL CADASTRADO.")
+        return
+    
+    print("\n  ANIMAIS DISPONÍVEIS: ")
+    for a in animais:
+        print(f"    #{a[0]} – {a[1]} ({a[2]})")
+
+    try:
+        id_buscado = int(input("\n  ID DO ANIMAL: "))
+    except ValueError:
+        print("  ID INVÁLIDO!")
+        return
+    
+    animal = buscar_animal_por_id(id_buscado)
+    if animal is None:
+        print("  ANIMAL NÃO ENCONTRADO!")
+        return
+    
+    nome = animal[1]
+    especie = animal[2].lower()
+    idade = animal[4]
+    
+    try:
+        idade = int(idade)
+
+    except (ValueError, TypeError):
+        idade = 0
+        
+    print(f"\n  SUGESTÕES PARA {nome.upper()} ({especie}):\n")
+        
+    if especie == "cão" or especie == "cao":
+        print("  • BANHO E TOSA A CADA 30 DIAS.")
+        print("  • PASSEIOS DIÁRIOS DE PELO MENOS 30 MINUTOS.")
+        print("  • VERMIFUGAÇÃO A CADA 3 MESES.")
+        print("  • VACINAS: V10 ANUAL E ANTIRRÁBICA ANUAL.")
+        
+    elif especie == "gato":
+        print("  • CAIXA DE AREIA LIMPA DIARIAMENTE.")
+        print("  • ARRANHADORES E BRINQUEDOS.")
+        print("  • VACINAS: V4 FELINA ANUAL E ANTIRRÁBICA ANUAL.")
+        print("  • VERMIFUGAÇÃO A CADA 3 MESES.")
+
+    else:
+        print("  • CONSULTE UM VETERINÁRIO ESPECIALISTA NA ESPÉCIE.")
+        print("  • VERIFIQUE NECESSIDADES ESPECÍFICAS DE DIETA E ESPAÇO.")
+
+    if idade <= 1:
+        print("\n  • FILHOTE: MANTER VACINAS E FERMIFUGAÇÃO EM DIA.")
+        print("  • ALIMENTAÇÃO ESPECÍFICA PARA FILHOTES.")
+        print("  • SOCIALIZAÇÃO PRECOCE É FUNDAMENTAL.")
+        
+    elif idade >= 8:
+        print("\n  • SÊNIOR: CHECK-UP VETERINÁRIO A CADA 6 MESES.")
+        print("  • ATENÇÃO A ARTICULAÇÕES E PESO. ")
+        print("  • DIETA ADAPTADA PARA A IDADE. ")
+        
+    try:
+        saude = int(animal[6])
+    except (ValueError, TypeError, IndexError):
+        saude = 0
+    
+    if saude == 2:
+        print("\n  ESTADO ESTÁVEL: MONITORAR DE PERTO E AGENDAR CONSULTA!")
+    elif saude == 3:
+        print("\n ESTADO RUIM: ENCAMINHAR AO VETERINÁRIO COM URGÊNCIA!")
+
+def calcular_compatibilidade(animal, adotante):
+    pontos = 0
+    
+    especie = animal[2].lower().strip()
+    try:
+        idade = int(animal[4])
+    
+    except (ValueError, TypeError):
+        idade = 0
+
+    try:
+        saude = int(animal[6])
+    except (ValueError, TypeError, IndexError):
+        saude = 1
