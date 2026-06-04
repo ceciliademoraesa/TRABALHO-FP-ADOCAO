@@ -8,9 +8,12 @@ MENU_PRINCIPAL = """
 ║  [2] - Visualizar animal         ║
 ║  [3] - Editar animal             ║
 ║  [4] - Excluir animal            ║
-║  [5] - Sugestões personalizadas  ║
-║  [6] - *EXTRA                    ║
-║  [7] - Sair                      ║
+║  [5] - Cadastrar cuidados        ║
+║  [6] - Sugestões personalizadas  ║
+║  [7] - Contagem de animais       ║
+║  [8] - Banco de dados            ║
+║  [9] - EXTRA                     ║
+║  [10] - Sair                     ║
 ╚══════════════════════════════════╝
 
 Qual opção você deseja: """
