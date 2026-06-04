@@ -12,8 +12,9 @@ MENU_PRINCIPAL = """
 ║  [6] - Sugestões personalizadas  ║
 ║  [7] - Contagem de animais       ║
 ║  [8] - Banco de dados            ║
-║  [9] - EXTRA                     ║
-║  [10] - Sair                     ║
+║  [9] - Sugerir Adotantes         ║
+║  [10] - EXTRA                    ║
+║  [11] - Sair                     ║
 ╚══════════════════════════════════╝
 
 Qual opção você deseja: """
