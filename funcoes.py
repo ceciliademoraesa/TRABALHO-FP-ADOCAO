@@ -406,6 +406,54 @@ def sugerir_adotantes():
         else:
             print("\n  ✗ BAIXA. CONSIDERE OUTRO ANIMAL.")
 
+def mostrar_cuidados_animais(id_animal):
+    if not os.path.exists("data/cuidados.csv"):
+        print("\nNenhum cuidado cadastrado.")
+        return
+
+    with open("data/cuidados.csv", "r", encoding="utf-8") as arquivo:
+        linhas = arquivo.readlines()
+
+    print("\nPRÓXIMOS CUIDADOS:")
+    encontrou = 0
+
+    for linha in linhas:
+        if linha.startswith("id_cuidado"):
+            continue
+        if not linha.strip():        
+            continue
+
+        campos = linha.strip().split(",")
+
+        if campos[1].strip() != id_animal:
+            continue
+        if campos[5].strip() == "s":
+            continue
+
+        encontrou += 1
+        tipo          = campos[2].strip()
+        data_prevista = campos[4].strip()
+        hoje          = datetime.now().date()
+        data          = datetime.strptime(data_prevista, "%d/%m/%Y").date() 
+
+        dias = (data - hoje).days
+
+        if dias < 0:
+            situacao = f"ATRASADA {abs(dias)} dia(s)!"
+        elif dias == 0:
+            situacao = "HOJE!"
+        elif dias == 1:
+            situacao = "AMANHÃ!"
+        else:
+            situacao = f"Faltam {dias} dia(s)"
+
+        print(f"  Tipo:  {tipo}")
+        print(f"  Data:  {data_prevista}")
+        print(f"  Status: {situacao}")
+
+    if encontrou == 0:
+        print("  Nenhum cuidado pendente.")
+
 def contar_animais(escolha):
    if escolha == 7:
         os.system("cls")
@@ -516,3 +564,6 @@ def banco_de_dados(escolha):
         print("==================================")
 
 
+def extra(escolha):
+    if escolha == 9:
+        escolha

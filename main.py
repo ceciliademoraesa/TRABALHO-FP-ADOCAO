@@ -29,7 +29,7 @@ while True:
         fc.banco_de_dados(escolha)
     
     elif escolha == 9:
-        fc
+        fc.extra(escolha)
 
 
 

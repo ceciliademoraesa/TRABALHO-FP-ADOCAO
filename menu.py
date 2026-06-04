@@ -1,7 +1,7 @@
 MENU_PRINCIPAL = """
 
 ╔══════════════════════════════════╗
-║           ☀  ADOTA+  ☀          ║
+║             ADOTA+               ║
 ║   Sistema de adoção facilitada   ║
 ╠══════════════════════════════════╣
 ║  [1] - Cadastrar animal          ║
