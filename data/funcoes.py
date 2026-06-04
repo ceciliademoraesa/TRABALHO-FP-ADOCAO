@@ -675,3 +675,77 @@ def sugerir_adotantes():
        print("\n  ~ MÉDIO. VALE UMA CONVERSA.")
    else:
        print("\n  ✗ BAIXA. CONSIDERE OUTRO ANIMAL.")
+
+def contar_animais():
+   if not os.path.exists("data/animais.csv"):
+       print("Nenhum animal cadastrado.")
+       return
+
+
+   with open("data/animais.csv", "r", encoding="utf-8") as arquivo:
+       linhas = arquivo.readlines()
+
+
+   total = 0
+   bom = 0
+   estavel = 0
+   ruim = 0
+   filhote = 0
+   adulto = 0
+   idoso = 0
+
+
+   for linha in linhas:
+       if linha.startswith("id_animal"):
+           continue
+
+
+       campos = linha.strip().split(",")
+       total += 1
+
+
+       saude = campos[6].strip()
+       if saude == "1":
+           bom += 1
+       elif saude == "2":
+           estavel += 1
+       elif saude == "3":
+           ruim += 1
+
+
+       idade = int(campos[2].strip())
+       if idade <= 2:
+           filhote += 1
+       elif idade <= 6:
+           adulto += 1
+       else:
+           idoso += 1
+
+
+   print(f"TOTAL DE ANIMAIS: {total}")
+
+
+   print("\nESTADO DE SAÚDE:")
+   print(f"  Bom:     {bom} animais")
+   print(f"  Estável: {estavel} animais")
+   print(f"  Ruim:    {ruim} animais")
+
+
+   print("\nFAIXA ETÁRIA:")
+   print(f"  Filhote (até 2 anos):  {filhote} animais")
+   print(f"  Adulto  (3 a 6 anos):  {adulto} animais")
+   print(f"  Idoso   (acima de 6):  {idoso} animais")
+
+
+   print("\nPORCENTAGEM POR SAÚDE:")
+   if total > 0:
+       print(f"  Bom:     {bom / total * 100:.1f}%")
+       print(f"  Estável: {estavel / total * 100:.1f}%")
+       print(f"  Ruim:    {ruim / total * 100:.1f}%")
+
+
+   print("\nPORCENTAGEM POR IDADE:")
+   if total > 0:
+       print(f"  Filhote: {filhote / total * 100:.1f}%")
+       print(f"  Adulto:  {adulto / total * 100:.1f}%")
+       print(f"  Idoso:   {idoso / total * 100:.1f}%")
