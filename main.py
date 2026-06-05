@@ -24,14 +24,11 @@ while True:
 
     elif escolha==7:
         fc.contar_animais(escolha)
-
-    elif escolha == 8:
-        fc.banco_de_dados(escolha)
     
-    elif escolha == 9:
+    elif escolha == 8:
         fc.sugerir_adotantes(escolha)
 
-    elif escolha== 10:
+    elif escolha== 9:
         fc.dashboard(escolha)
 
 

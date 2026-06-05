@@ -11,9 +11,8 @@ MENU_PRINCIPAL = """
 ║  [5]  - Cadastrar cuidados       ║
 ║  [6]  - Sugestões personalizadas ║
 ║  [7]  - Contagem de animais      ║
-║  [8]  -  Banco de dados          ║
-║  [9]  - Sugerir Adotantes        ║
-║  [10] - Dashboard                ║
+║  [8]  - Sugerir Adotantes        ║
+║  [9] - Dashboard                 ║
 ║  [11] - Sair                     ║
 ╚══════════════════════════════════╝
 

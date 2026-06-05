@@ -51,6 +51,11 @@ def visualizar_animal(escolha):
             linhas = arquivo.readlines()
 
         animal_encontrado = 0
+        total_de_animais = gerar_id("data/animais.csv") - 1
+
+
+        print("========= BANCO DE DADOS =========")
+        print(f"\n  TOTAL DE ANIMAIS: {total_de_animais}")
 
         for linha in linhas:
             campo = linha.split(",")
@@ -62,6 +67,8 @@ def visualizar_animal(escolha):
                 print(f"  RAÇA: {campo[4]}")
                 print(f"  DATA DE CHEGADA: {campo[5]}")
                 print(f"  ESTADO DE SAÚDE: {campo[6]}")
+
+        print("==================================")
 
         if animal_encontrado == 0: 
             os.system("cls")
@@ -484,40 +491,10 @@ def contar_animais(escolha):
             print(f"  Adulto:  {adulto / total * 100:.1f}%")
             print(f"  Idoso:   {idoso / total * 100:.1f}%")
 
-def banco_de_dados(escolha):
-    if escolha == 8:
-        os.system("cls")
 
-        total_de_animais = gerar_id("data/animais.csv") - 1
-        total_de_cuidados = gerar_id("data/cuidados.csv") - 1
-
-        print("========= BANCO DE DADOS =========")
-        print(f"\n  TOTAL DE ANIMAIS: {total_de_animais}")
-        print(f"  TOTAL DE CUIDADOS: {total_de_cuidados}")
-        print("\nTAREFAS:")
-
- 
-        with open("data/cuidados.csv", "r", encoding="utf-8") as arquivo:
-            linhas = arquivo.readlines()
-
-        for linha in linhas:
-            if linha.startswith("id_cuidado"):
-                continue
-
-    
-            campos = linha.strip().split(",",5) 
-
-            print(f"\n  TAREFAS {campos[0]}")
-            print(f"  Animal ID:     {campos[1]}")
-            print(f"  Tipo:          {campos[2]}")
-            print(f"  Descrição:     {campos[3]}")
-            print(f"  Responsável:   {campos[4]}")
-            print(f"  Data prevista: {campos[5]}")
-
-        print("==================================")
 
 def sugerir_adotantes(escolha):
-        if escolha== 9:
+        if escolha== 8:
           print("\nSUGESTÃO DE ADOTANTES COMPATÍVEIS") 
           with open("data/animais.csv", "r", encoding="utf-8") as arquivo:
                linhas = arquivo.readlines()
@@ -580,7 +557,7 @@ def sugerir_adotantes(escolha):
 
 
 def dashboard(escolha):
-    if escolha == 10:
+    if escolha == 9:
      os.system("cls")
 
     print("=" * 45)
