@@ -31,6 +31,9 @@ while True:
     elif escolha == 9:
         fc.sugerir_adotantes(escolha)
 
+    elif escolha== 10:
+        fc.dashboard(escolha)
+
 
 
 
