@@ -21,8 +21,7 @@ O **ADOTA+** é um sistema de adoção facilitadao desenvolvida em Python que fa
 | `[5]` | 💊 Cadastrar cuidados | ✅ Implementado |
 | `[6]` | ✨ Sugestões personalizadas | ✅ Implementado |
 | `[7]` | 🔢 Contagem de animais | ✅ Implementado |
-| `[8]` | 🗄️ Banco de dados | ✅ Implementado |
-| `[9]` | 🤝 Sugerir adotantes | ✅ Implementado |
+| `[8]` | 🤝 Sugerir adotantes | ✅ Implementado |
 
 ---
 
