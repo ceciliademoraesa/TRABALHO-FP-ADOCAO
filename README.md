@@ -89,7 +89,7 @@ Ao iniciar o sistema, um menu principal será exibido com as seguintes opções:
 ║  [6] - Sugestões personalizadas  ║
 ║  [7] - Contagem de animais       ║
 ║  [9] - Sugerir adotantes         ║
-║  [9] - SAIR         ║
+║  [9] - SAIR                      ║
 ╚══════════════════════════════════╝
 ```
 
