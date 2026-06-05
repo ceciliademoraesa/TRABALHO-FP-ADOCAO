@@ -38,7 +38,7 @@ def cadastar_animal(escolha):
             if not arquivo_existente:
                 arquivo.write("id_animal,nome,idade,especie,raca,data_de_chegada,estado_de_saude\n")
 
-                arquivo.write(f"{id_animal},{nome},{idade},{especie},{raca},{data_de_chegada},{estado_de_saude}\n")
+            arquivo.write(f"{id_animal},{nome},{idade},{especie},{raca},{data_de_chegada},{estado_de_saude}\n")
 
         print("ANIMAL CADRASTADO COM SUCESSO!")
 
@@ -96,7 +96,7 @@ def editar_animal(escolha):
         for linha in linhas:
             campos = linha.strip().split(",")
 
-            if campos[0] == "id_orcamento":
+            if campos[0] == "id_animal":
                 linhas_novas.append(linha)
                 continue
 
@@ -124,7 +124,6 @@ def editar_animal(escolha):
             print("ID não encontrado.")
             return
 
-        # Reescreve arquivo
         with open("data/animais.csv", "w", encoding="utf-8") as arquivo:
             arquivo.writelines(linhas_novas)
 
@@ -348,64 +347,6 @@ def calcular_compatibilidade(animal, adotante):
     
     return min(pontos, 100)
 
-def sugerir_adotantes(escolha):
-        if escolha==9:
-            print("\n SUGESTÕES DE ADOTANTES COMPATÍVEIS")
-    
-            if len(animais) == 0:
-                print("NENHUM ANIMAL CADASTRADO.")
-                return
-    
-            print("\nANIMAIS DISPONÍVEIS:")
-            for a in animais:
-                print(f"    #{a[0]} – {a[1]} ({a[2]})")
-
-            try:
-                id_buscado = int(input("\nID DO ANIMAL: "))
-            except ValueError:
-                print("ID INVÁLIDO")
-                return
-            
-            animal = buscar_animal_por_id(id_buscado)
-            if animal is None:
-                print("ANIMAL NÃO ENCONTRADO.")
-                return
-            
-            print(f"\n PERFIL DO ADOTANTE IDEAL PARA {animal[1].upper()}")
-            print("(RESPONDA AS PERGUNTAS PARA CALCULAR A COMPATIBILIDADE)\n")
-
-            nome = input("NOME DO ADOTANTE: ").strip()
-            
-            pref = input("PREFERÊNCIA DA ESPÉCIE (cão, gato, outro): ").strip()
-            
-            quintal_resp = input("TEM QUINTAL OU ÁREA EXTERNA?: ").strip().lower()
-            quintal = quintal_resp == "s"
-            
-            criancas_resp = input("TEM CRIANÇAS EM CASA?: ").strip().lower()
-            criancas = criancas_resp == "s"
-            
-            exp_resp = input("TEM EXPERIÊNCIAS COM PETS?: ").strip().lower()
-            experiencia = exp_resp == "s"
-    
-            adotante = {
-                "nome": nome,
-                "preferencia_especie": pref,
-                "quintal": quintal,
-                "criancas": criancas,
-                "experiencia": experiencia
-            }
-            score = calcular_compatibilidade(animal, adotante)
-            barra = "█" * (score // 10) + "░" * (10 - score // 10)
-            
-            print(f"\n COMPATIBILIDADE DE {nome} COM {animal[1]}:")
-            print(f"  [{barra}] {score}%")
-            
-            if score >= 70:
-                print("\n  ✓ ÓTIMO. RECOMENDADO PARA ADOÇÃO.")
-            elif score >= 40:
-                print("\n  ~ MÉDIO. VALE UMA CONVERSA.")
-            else:
-                print("\n  ✗ BAIXA. CONSIDERE OUTRO ANIMAL.")
 
 def mostrar_cuidados_animais(id_animal):
     if not os.path.exists("data/cuidados.csv"):
@@ -419,7 +360,7 @@ def mostrar_cuidados_animais(id_animal):
     encontrou = 0
 
     for linha in linhas:
-        if linha.startswith("id_cuidado"):
+        if linha.startswith("id_tarefa"):
             continue
         if not linha.strip():        
             continue
@@ -428,12 +369,10 @@ def mostrar_cuidados_animais(id_animal):
 
         if campos[1].strip() != id_animal:
             continue
-        if campos[5].strip() == "s":
-            continue
 
         encontrou += 1
         tipo          = campos[2].strip()
-        data_prevista = campos[4].strip()
+        data_prevista = campos[5].strip()
         hoje          = datetime.now().date()
         data          = datetime.strptime(data_prevista, "%d/%m/%Y").date() 
 
@@ -564,7 +503,215 @@ def banco_de_dados(escolha):
 
         print("==================================")
 
+def sugerir_adotantes(escolha):
+        if escolha== 9:
+          print("\nSUGESTÃO DE ADOTANTES COMPATÍVEIS") 
+          with open("data/animais.csv", "r", encoding="utf-8") as arquivo:
+               linhas = arquivo.readlines()
 
-def extra(escolha):
-    if escolha == 9:
-        escolha
+        print("\nANIMAIS DISPONÍVEIS:")
+        for linha in linhas:
+          if linha.startswith("id_animal") or not linha.strip():
+             continue
+          campos = linha.strip().split(",")
+          print(f"  #{campos[0]} - {campos[1]} ({campos[2]})")
+            
+
+        id_buscado = input("\nID DO ANIMAL: ").strip()
+        animal = None
+        for linha in linhas:
+            campos = linha.strip().split(",")
+            if campos[0] == id_buscado:
+                animal = campos
+                break
+
+            if animal is None:
+             print("ANIMAL NÃO ENCONTRADO.")
+             return
+
+            
+            print(f"\n PERFIL DO ADOTANTE IDEAL PARA {animal[1].upper()}")
+            print("(RESPONDA AS PERGUNTAS PARA CALCULAR A COMPATIBILIDADE)\n")
+
+            nome = input("NOME DO ADOTANTE: ").strip()
+            
+            pref = input("PREFERÊNCIA DA ESPÉCIE (cão, gato, outro): ").strip()
+            
+            quintal_resp = input("TEM QUINTAL OU ÁREA EXTERNA?: ").strip().lower()
+            quintal = quintal_resp == "s"
+            
+            criancas_resp = input("TEM CRIANÇAS EM CASA?: ").strip().lower()
+            criancas = criancas_resp == "s"
+            
+            exp_resp = input("TEM EXPERIÊNCIAS COM PETS?: ").strip().lower()
+            experiencia = exp_resp == "s"
+    
+            adotante = {
+                "nome": nome,
+                "preferencia_especie": pref,
+                "quintal": quintal,
+                "criancas": criancas,
+                "experiencia": experiencia
+            }
+            score = calcular_compatibilidade(animal, adotante)
+            barra = "█" * (score // 10) + "░" * (10 - score // 10)
+            
+            print(f"\n COMPATIBILIDADE DE {nome} COM {animal[1]}:")
+            print(f"  [{barra}] {score}%")
+            
+            if score >= 70:
+                print("\n  ✓ ÓTIMO. RECOMENDADO PARA ADOÇÃO.")
+            elif score >= 40:
+                print("\n  ~ MÉDIO. VALE UMA CONVERSA.")
+            else:
+                print("\n  ✗ BAIXA. CONSIDERE OUTRO ANIMAL.")
+
+
+def dashboard(escolha):
+    if escolha == 10:
+     os.system("cls")
+
+    print("=" * 45)
+    print("      CENTRO DE ADOCAO - RESUMO GERAL")
+    print("=" * 45)
+
+    if not os.path.exists("data/animais.csv"):
+        print("Nenhum animal cadastrado.")
+        return
+
+    with open("data/animais.csv", "r", encoding="utf-8") as arquivo:
+        linhas_animais = arquivo.readlines()
+
+    total = bom = estavel = ruim = 0
+    filhote = adulto = idoso = 0
+    caes = gatos = outros = 0
+
+    for linha in linhas_animais:
+        if linha.startswith("id_animal") or not linha.strip():
+            continue
+        campos = linha.strip().split(",")
+        total += 1
+
+        saude = campos[6].strip()
+        if saude == "1":
+            bom += 1
+        elif saude == "2":
+            estavel += 1
+        elif saude == "3":
+            ruim += 1
+
+        try:
+            idade = int(campos[2].strip())
+            if idade <= 2:
+                filhote += 1
+            elif idade <= 6:
+                adulto += 1
+            else:
+                idoso += 1
+        except:
+            pass
+
+        especie = campos[3].strip().lower()
+        if especie in ("cão", "cao"):
+            caes += 1
+        elif especie == "gato":
+            gatos += 1
+        else:
+            outros += 1
+
+    print(f"\nANIMAIS CADASTRADOS: {total}")
+    print(f"  Bom:     {bom}")
+    print(f"  Estavel: {estavel}")
+    print(f"  Ruim:    {ruim}")
+    if ruim > 0:
+        print(f"  ** ATENCAO: {ruim} animal(is) precisam de cuidado urgente! **")
+
+    print(f"\nFAIXA ETARIA:")
+    print(f"  Filhote (ate 2 anos): {filhote}")
+    print(f"  Adulto  (3 a 6 anos): {adulto}")
+    print(f"  Idoso   (acima de 6): {idoso}")
+
+    print(f"\nESPECIES:")
+    print(f"  Caes:   {caes}")
+    print(f"  Gatos:  {gatos}")
+    print(f"  Outros: {outros}")
+
+    if not os.path.exists("data/cuidados.csv"):
+        print("\nNenhum cuidado cadastrado.")
+    else:
+        with open("data/cuidados.csv", "r", encoding="utf-8") as arquivo:
+            linhas_cuidados = arquivo.readlines()
+
+        total_cuidados = 0
+        atrasados = 0
+        hoje_str = []
+        amanha_str = []
+        proximos_str = []
+        hoje = datetime.now().date()
+
+        vacina = banho = consulta = treino = outro_tipo = 0
+
+        for linha in linhas_cuidados:
+            if linha.startswith("id_tarefa") or not linha.strip():
+                continue
+            campos = linha.strip().split(",")
+            total_cuidados += 1
+
+            tipo = campos[2].strip().lower()
+            if tipo == "vacina":
+                vacina += 1
+            elif tipo == "banho":
+                banho += 1
+            elif tipo == "consulta veterinaria":
+                consulta += 1
+            elif tipo == "treino":
+                treino += 1
+            else:
+                outro_tipo += 1
+
+            try:
+                data = datetime.strptime(campos[5].strip(), "%d/%m/%Y").date()
+                dias = (data - hoje).days
+                animal_id = campos[1].strip()
+                tipo_exib = campos[2].strip()
+
+                if dias < 0:
+                    atrasados += 1
+                elif dias == 0:
+                    hoje_str.append(f"    Animal #{animal_id} - {tipo_exib}")
+                elif dias == 1:
+                    amanha_str.append(f"    Animal #{animal_id} - {tipo_exib}")
+                elif dias <= 7:
+                    proximos_str.append(f"    Animal #{animal_id} - {tipo_exib} (em {dias} dias)")
+            except:
+                pass
+
+        print(f"\nCUIDADOS REGISTRADOS: {total_cuidados}")
+        print(f"  Vacinas:        {vacina}")
+        print(f"  Banhos:         {banho}")
+        print(f"  Consultas vet.: {consulta}")
+        print(f"  Treinos:        {treino}")
+        print(f"  Outros:         {outro_tipo}")
+
+        print(f"\nALERTAS DE CUIDADOS:")
+        print(f"  Atrasados: {atrasados}")
+
+        if hoje_str:
+            print(f"\n  HOJE ({len(hoje_str)}):")
+            for item in hoje_str:
+                print(item)
+
+        if amanha_str:
+            print(f"\n  AMANHA ({len(amanha_str)}):")
+            for item in amanha_str:
+                print(item)
+
+        if proximos_str:
+            print(f"\n  PROXIMOS 7 DIAS ({len(proximos_str)}):")
+            for item in proximos_str:
+                print(item)
+
+        if not hoje_str and not amanha_str and not proximos_str and atrasados == 0:
+            print("  Nenhum cuidado pendente.")
+
+    print("\n" + "=" * 45)
