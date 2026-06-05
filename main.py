@@ -29,11 +29,7 @@ while True:
         fc.banco_de_dados(escolha)
     
     elif escolha == 9:
-<<<<<<< HEAD
         fc.sugerir_adotantes(escolha)
-=======
-        fc.extra(escolha)
->>>>>>> 1f5de6327833bdf70773b67e0d374edc62db3366
 
 
 
