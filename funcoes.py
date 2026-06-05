@@ -12,25 +12,25 @@ def cadastar_animal(escolha):
     if escolha == 1:
         os.system("cls")
 
-        nome = input("Informe o nome do animal: ").lower()
-        idade = input("Infome a idade do animal: ").lower()
-        especie = input("Informe a espÉcie do animal: ").lower()
-        raca = input("Informe a raça do animal: ").lower()
-        opcao_data = int(input("Digite [1] para cadastrar a data manualmente ou [2] para usar a data atual: "))
+        nome = input("INFORME O NOME DO ANIMAL: ").lower()
+        idade = input("INFORME A IDADE DO ANIMAL: ").lower()
+        especie = input("INFORME A ESPÉCIE DO ANIMAL: ").lower()
+        raca = input("INFORME A RAÇA DO ANIMAL: ").lower()
+        opcao_data = int(input("DIGITE [1] PARA CADASTRAR A DATA MANUALMENTE OU [2] PARA USAR A DATA ATUAL: "))
         
         if opcao_data == 1:
-            data_de_chegada = input("Informe a data de chegada: ")
+            data_de_chegada = input("INFORME A DATA DE CHEGADA: ")
         elif opcao_data == 2:
             data_de_chegada = datetime.now().strftime("%d/%m/%Y")
         
-        print("Estado de saúde")
+        print("ESTADO DE SAÚDE")
         print("1 - BOM")
-        print("2- ESTÁVEL")
+        print("2 - ESTÁVEL")
         print("3 - RUIM")
-        estado_de_saude = int(input("Selecione o estado de saúde do animal: "))
+        estado_de_saude = int(input("SELECIONE O ESTADO DE SAÚDE DO ANIMAL: "))
 
         id_animal = gerar_id("data/animais.csv")
-        print(f"O ID do animal é: {id_animal}")
+        print(f"O ID DO ANIMAL É: {id_animal}")
 
         arquivo_existente = os.path.exists("data/animais.csv")
 
@@ -40,12 +40,12 @@ def cadastar_animal(escolha):
 
                 arquivo.write(f"{id_animal},{nome},{idade},{especie},{raca},{data_de_chegada},{estado_de_saude}\n")
 
-        print("ANIMAL CADRASTADO COM SUCESSO!")
+        print("ANIMAL CADASTRADO COM SUCESSO!")
 
 def visualizar_animal(escolha):
     if escolha == 2:
         os.system("cls")
-        id_verificacao_animal = input("Informe o ID do animal que deseja visualizar: ")
+        id_verificacao_animal = input("INFORME O ID DO ANIMAL QUE DESEJA VISUALIZAR: ")
 
         with open("data/animais.csv", "r", encoding="utf-8") as arquivo:
             linhas = arquivo.readlines()
@@ -65,13 +65,13 @@ def visualizar_animal(escolha):
 
         if animal_encontrado == 0: 
             os.system("cls")
-            print("\nId inválido.")
+            print("\nID INVÁLIDO.")
 
 def editar_animal(escolha):
     if escolha == 3:
         os.system("cls")
 
-        id_edicao = input("Escolha o ID de orçamento que deseja atualizar: ")
+        id_edicao = input("ESCOLHA O ID DE ORÇAMENTO QUE DESEJA ATUALIZAR: ")
 
         with open("data/animais.csv", "r", encoding="utf-8") as arquivo:
             linhas = arquivo.readlines()
@@ -90,7 +90,7 @@ def editar_animal(escolha):
                     return str(float(entrada))
 
                 except ValueError:
-                    print("\nInforme um valor numérico válido!")
+                    print("\nINFORME UM VALOR NUMÉRICO VÁLIDO!")
 
         for linha in linhas:
             campos = linha.strip().split(",")
@@ -102,17 +102,16 @@ def editar_animal(escolha):
             if campos[0] == id_edicao:
                 encontrado = True
 
-                print(f"\Animal {id_edicao} encontrado!")
-                print("Para manter o valor atual, deixe o campo em branco.\n")
+                print(f"\ANIMAL {id_edicao} ENCONTRADO!")
+                print("PARA MANTER O VALOR ATUAL, DEIXE O CAMPO EM BRANCO.\n")
 
-                nome = input(f"Nome [{campos[1]}]: ").lower() or campos[1]
-                idade = input(f"Idade [{campos[2]}]: ").lower() or campos[2]
-                especie = input(f"Espécie [{campos[3]}]: ").lower() or campos[2]
-                raca = input(f"Raça[{campos[3]}]: ").lower() or campos[3]
-                data_de_chegada = pedir_float_enter(f"Data de chegada [{campos[4]}]: ",campos[4])
-                estado_de_saude = pedir_float_enter(f"Estado de saúde [{campos[5]}]: ",campos[5])
+                nome = input(f"NOME [{campos[1]}]: ").lower() or campos[1]
+                idade = input(f"IDADE [{campos[2]}]: ").lower() or campos[2]
+                especie = input(f"ESPÉCIE [{campos[3]}]: ").lower() or campos[2]
+                raca = input(f"RAÇA [{campos[3]}]: ").lower() or campos[3]
+                data_de_chegada = pedir_float_enter(f"DATA DE CHEGADA [{campos[4]}]: ",campos[4])
+                estado_de_saude = pedir_float_enter(f"ESTADO DE SAÚDE [{campos[5]}]: ",campos[5])
                 
-
                 nova_linha = (f"{id_edicao},{nome},{idade},{especie},{raca},{data_de_chegada}\n")
                 linhas_novas.append(nova_linha)
 
@@ -120,19 +119,19 @@ def editar_animal(escolha):
                 linhas_novas.append(linha)
 
         if not encontrado:
-            print("ID não encontrado.")
+            print("ID NÃO ENCONTRADO.")
             return
 
         with open("data/animais.csv", "w", encoding="utf-8") as arquivo:
             arquivo.writelines(linhas_novas)
 
-        print(f"Animal {id_edicao} atualizado com sucesso!")
+        print(f"ANIMAL {id_edicao} ATUALIZADO COM SUCESSO!")
 
 def excluir_animal(escolha):
     if escolha == 4:
         os.system("cls")
 
-        id_excluir = input("Informe o ID do orçamento que deseja deletar: ")
+        id_excluir = input("INFORME O ID DO ORÇAMENTO QUE DESEJA DELETAR: ")
 
         with open("data/animais.csv", "r", encoding="utf-8") as arquivo:
             linhas = arquivo.readlines()
@@ -149,32 +148,32 @@ def excluir_animal(escolha):
 
             if campos[0] == id_excluir:
                 encontrado = True
-                confirmacao = input(f"\nTem certeza que deseja deletar o animal {id_excluir}? (s/n): ").lower()
+                confirmacao = input(f"\nTEM CERTEZA QUE DESEJA DELETAR O ANIMAL {id_excluir}? (S/N): ").lower()
                 if confirmacao != "s":
-                    print("\nOperação cancelada.")
+                    print("\nOPERAÇÃO CANCELADA.")
                     return
             else:
                 linhas_novas.append(linha)
 
         if not encontrado:
-            print("ID não encontrado.")
+            print("ID NÃO ENCONTRADO.")
             return
 
         with open("data/animais.csv", "w", encoding="utf-8") as arquivo:
             arquivo.writelines(linhas_novas)
 
-        print(f"Animal {id_excluir} deletado com sucesso!")
+        print(f"ANIMAL {id_excluir} DELETADO COM SUCESSO!")
 
 def cadastrar_cuidados(escolha):
     if escolha == 5:
         os.system("cls")
 
-        id_animal = input("Informe o ID do animal: ")
+        id_animal = input("INFORME O ID DO ANIMAL: ")
 
         id_cadastrado = gerar_id("data/animais.csv") - 1
 
         if int(id_animal) > id_cadastrado:
-            print("ID inválido! Animal não encontrado.")
+            print("ID INVÁLIDO! ANIMAL NÃO ENCONTRADO.")
             return
 
         print("\nTIPO DE CUIDADO")
@@ -236,25 +235,25 @@ def buscar_animal_por_id(id_buscado):
 def sugerir_cuidados(escolha):
     if escolha == 6:
         os.system("cls")
-        print("\n  SUGESTÕES DE CUIDADOS")
+        print("\nSUGESTÕES DE CUIDADOS")
         
         if len(animais) == 0:
-            print("  NENHUM ANIMAL CADASTRADO.")
+            print("NENHUM ANIMAL CADASTRADO.")
             return
         
-        print("\n  ANIMAIS DISPONÍVEIS: ")
+        print("\nANIMAIS DISPONÍVEIS: ")
         for a in animais:
             print(f"    #{a[0]} – {a[1]} ({a[2]})")
 
         try:
             id_buscado = int(input("\n  ID DO ANIMAL: "))
         except ValueError:
-            print("  ID INVÁLIDO!")
+            print("ID INVÁLIDO!")
             return
         
         animal = buscar_animal_por_id(id_buscado)
         if animal is None:
-            print("  ANIMAL NÃO ENCONTRADO!")
+            print("ANIMAL NÃO ENCONTRADO!")
             return
         
         nome = animal[1]
@@ -267,7 +266,7 @@ def sugerir_cuidados(escolha):
         except (ValueError, TypeError):
             idade = 0
             
-        print(f"\n  SUGESTÕES PARA {nome.upper()} ({especie}):\n")
+        print(f"\nSUGESTÕES PARA {nome.upper()} ({especie}):\n")
             
         if especie == "cão" or especie == "cao":
             print("BANHO E TOSA A CADA 30 DIAS.")
@@ -301,9 +300,9 @@ def sugerir_cuidados(escolha):
             saude = 0
         
         if saude == 2:
-            print("\n  ESTADO ESTÁVEL: MONITORAR DE PERTO E AGENDAR CONSULTA!")
+            print("\nESTADO ESTÁVEL: MONITORAR DE PERTO E AGENDAR CONSULTA!")
         elif saude == 3:
-            print("\n ESTADO RUIM: ENCAMINHAR AO VETERINÁRIO COM URGÊNCIA!")
+            print("\nESTADO RUIM: ENCAMINHAR AO VETERINÁRIO COM URGÊNCIA!")
 
 def calcular_compatibilidade(animal, adotante):
     pontos = 0
@@ -372,10 +371,10 @@ def sugerir_adotantes(escolha):
             return
 
         print(f"\nPERFIL DO ADOTANTE PARA {animal[1].upper()}\n")
-        nome        = input("NOME DO ADOTANTE: ").strip()
-        pref        = input("PREFERÊNCIA DE ESPÉCIE (cão/gato/outro): ").strip().lower()
-        quintal     = input("TEM QUINTAL? (s/n): ").strip().lower() == "s"
-        criancas    = input("TEM CRIANÇAS EM CASA? (s/n): ").strip().lower() == "s"
+        nome  = input("NOME DO ADOTANTE: ").strip()
+        pref = input("PREFERÊNCIA DE ESPÉCIE (cão/gato/outro): ").strip().lower()
+        quintal = input("TEM QUINTAL? (s/n): ").strip().lower() == "s"
+        criancas = input("TEM CRIANÇAS EM CASA? (s/n): ").strip().lower() == "s"
         experiencia = input("TEM EXPERIÊNCIA COM PETS? (s/n): ").strip().lower() == "s"
 
         adotante = {
@@ -401,7 +400,7 @@ def sugerir_adotantes(escolha):
 
 def mostrar_cuidados_animais(id_animal):
     if not os.path.exists("data/cuidados.csv"):
-        print("\nNenhum cuidado cadastrado.")
+        print("\nNENHUM CUIDADO CADASTRADO.")
         return
 
     with open("data/cuidados.csv", "r", encoding="utf-8") as arquivo:
@@ -424,35 +423,35 @@ def mostrar_cuidados_animais(id_animal):
             continue
 
         encontrou += 1
-        tipo          = campos[2].strip()
+        tipo = campos[2].strip()
         data_prevista = campos[4].strip()
-        hoje          = datetime.now().date()
-        data          = datetime.strptime(data_prevista, "%d/%m/%Y").date() 
+        hoje = datetime.now().date()
+        data = datetime.strptime(data_prevista, "%d/%m/%Y").date() 
 
         dias = (data - hoje).days
 
         if dias < 0:
-            situacao = f"ATRASADA {abs(dias)} dia(s)!"
+            situacao = f"ATRASADA {abs(dias)} DIA(S)!"
         elif dias == 0:
             situacao = "HOJE!"
         elif dias == 1:
             situacao = "AMANHÃ!"
         else:
-            situacao = f"Faltam {dias} dia(s)"
+            situacao = f"FALTAM {dias} DIA(S)"
 
-        print(f"  Tipo:  {tipo}")
-        print(f"  Data:  {data_prevista}")
-        print(f"  Status: {situacao}")
+        print(f"TIPO: {tipo}")
+        print(f"DATA: {data_prevista}")
+        print(f"STATUS: {situacao}")
 
     if encontrou == 0:
-        print("  Nenhum cuidado pendente.")
+        print("NENHUM CUIDADO PENDENTE.")
 
 def contar_animais(escolha):
    if escolha == 7:
         os.system("cls")
                 
         if not os.path.exists("data/animais.csv"):
-            print("Nenhum animal cadastrado.")
+            print("NENHUM ANIMAL CADASTRADO.")
             return
 
         with open("data/animais.csv", "r", encoding="utf-8") as arquivo:
@@ -492,26 +491,26 @@ def contar_animais(escolha):
         print(f"TOTAL DE ANIMAIS: {total}")
 
         print("\nESTADO DE SAÚDE:")
-        print(f"  Bom:     {bom} animais")
-        print(f"  Estável: {estavel} animais")
-        print(f"  Ruim:    {ruim} animais")
+        print(f"BOM: {bom} ANIMAIS")
+        print(f"ESTÁVEL: {estavel} ANIMAIS")
+        print(f"RUIM: {ruim} ANIMAIS")
 
         print("\nFAIXA ETÁRIA:")
-        print(f"  Filhote (até 2 anos):  {filhote} animais")
-        print(f"  Adulto  (3 a 6 anos):  {adulto} animais")
-        print(f"  Idoso   (acima de 6):  {idoso} animais")
+        print(f"FILHOTE (ATÉ 2 ANOS):  {filhote} ANIMAIS")
+        print(f"ADULTO (3 A 6 ANOS):  {adulto} ANIMAIS")
+        print(f"IDOSO (ACIMA DE 6):  {idoso} ANIMAIS")
 
         print("\nPORCENTAGEM POR SAÚDE:")
         if total > 0:
-            print(f" Bom:     {bom / total * 100:.1f}%")
-            print(f" Estável: {estavel / total * 100:.1f}%")
-            print(f" Ruim:    {ruim / total * 100:.1f}%")
+            print(f"BOM:     {bom / total * 100:.1f}%")
+            print(f"ESTÁVEL: {estavel / total * 100:.1f}%")
+            print(f"RUIM:    {ruim / total * 100:.1f}%")
 
         print("\nPORCENTAGEM POR IDADE:")
         if total > 0:
-            print(f"  Filhote: {filhote / total * 100:.1f}%")
-            print(f"  Adulto:  {adulto / total * 100:.1f}%")
-            print(f"  Idoso:   {idoso / total * 100:.1f}%")
+            print(f"FILHOTE: {filhote / total * 100:.1f}%")
+            print(f"ADULTO:  {adulto / total * 100:.1f}%")
+            print(f"IDOSO:   {idoso / total * 100:.1f}%")
 
 def banco_de_dados(escolha):
     if escolha == 8:
@@ -521,8 +520,8 @@ def banco_de_dados(escolha):
         total_de_cuidados = gerar_id("data/cuidados.csv") - 1
 
         print("BANCO DE DADOS")
-        print(f"\n  TOTAL DE ANIMAIS: {total_de_animais}")
-        print(f"  TOTAL DE CUIDADOS: {total_de_cuidados}")
+        print(f"\nTOTAL DE ANIMAIS: {total_de_animais}")
+        print(f"TOTAL DE CUIDADOS: {total_de_cuidados}")
         print("\nTAREFAS:")
 
         with open("data/cuidados.csv", "r", encoding="utf-8") as arquivo:
@@ -534,12 +533,12 @@ def banco_de_dados(escolha):
 
             campos = linha.strip().split(",") 
 
-            print(f"\n  TAREFAS {campos[0]}")
-            print(f"  Animal ID:     {campos[1]}")
-            print(f"  Tipo:          {campos[2]}")
-            print(f"  Descrição:     {campos[3]}")
-            print(f"  Responsável:   {campos[4]}")
-            print(f"  Data prevista: {campos[5]}")
+            print(f"\nTAREFAS {campos[0]}")
+            print(f"Animal ID: {campos[1]}")
+            print(f"Tipo: {campos[2]}")
+            print(f"Descrição: {campos[3]}")
+            print(f"Responsável: {campos[4]}")
+            print(f"Data prevista: {campos[5]}")
 
         print("==================================")
 
