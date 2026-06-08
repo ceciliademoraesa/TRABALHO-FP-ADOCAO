@@ -1,4 +1,3 @@
 id_animal,nome,idade,especie,raca,data_de_chegada,estado_de_saude
-1, sushi, 9, cão, shitzu, 04/06/2026, 1
-2,luck,5,gato,persa,1.0,2.0
-3,joca,5,cão,cavalier,05/06/2026,1
+1, sushi, 3, n, n, 28/05/2026, 12, gato, 10, gato, nao tem, 04/06/2026, 12,coco chanel,5,cão,shitzu,08/06/2026,2
+2,fodase,4,sss,sss,08/06/2026,2

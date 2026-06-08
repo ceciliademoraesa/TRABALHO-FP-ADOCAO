@@ -87,7 +87,7 @@ def editar_animal(escolha):
         encontrado = False
         linhas_novas = []
 
-        def pedir_float_enter(mensagem, atual):
+        def pedir_ou_enter(mensagem, atual):
             while True:
                 entrada = input(mensagem)
 
@@ -95,7 +95,7 @@ def editar_animal(escolha):
                     return atual
 
                 try:
-                    return str(float(entrada))
+                    return str(int(entrada))
 
                 except ValueError:
                     print("\nInforme um valor numérico válido!")
@@ -117,8 +117,8 @@ def editar_animal(escolha):
                 idade = input(f"Idade [{campos[2]}]: ").lower() or campos[2]
                 especie = input(f"Espécie [{campos[3]}]: ").lower() or campos[3]
                 raca = input(f"Raça [{campos[4]}]: ").lower() or campos[4]
-                data_de_chegada = pedir_float_enter(f"Data de chegada [{campos[5]}]: ",campos[5])
-                estado_de_saude = pedir_float_enter(f"Estado de saúde [{campos[6]}]: ",campos[6])
+                data_de_chegada = (f"Data de chegada [{campos[5]}]: ",campos[5])
+                estado_de_saude = pedir_ou_enter(f"Estado de saúde [{campos[6]}]: ",campos[6])
                 
 
                 nova_linha = (f"{id_edicao},{nome},{idade},{especie},{raca},{data_de_chegada},{estado_de_saude}\n")
@@ -140,7 +140,7 @@ def excluir_animal(escolha):
     if escolha == 4:
         os.system("cls")
 
-        id_excluir = input("Informe o ID do orçamento que deseja deletar: ")
+        id_excluir = input("Informe o ID do animal que deseja deletar: ")
 
         with open("data/animais.csv", "r", encoding="utf-8") as arquivo:
             linhas = arquivo.readlines()
@@ -224,23 +224,6 @@ def cadastrar_cuidados(escolha):
 
         print("TAREFA CADASTRADA COM SUCESSO!")
 
-animais = [] 
-
-def data_hoje():
-    return datetime.date.today()
- 
-def formatar_data(data_str):
-    try:
-        return datetime.datetime.strptime(data_str, "%d/%m/%Y").date()
-    except ValueError:
-        return None
-
-
-def buscar_animal_por_id(id_buscado):
-    for a in animais:
-        if a[0] == id_buscado:
-            return a
-    return None
 
 
 def sugerir_cuidados(escolha):
@@ -286,7 +269,7 @@ def sugerir_cuidados(escolha):
             return
 
         nome = animal[1]
-        especie = animal[3].lower()  # índice correto
+        especie = animal[3].lower()  
         
         try:
             idade = int(animal[2])
@@ -366,6 +349,69 @@ def calcular_compatibilidade(animal, adotante):
        pontos += 10
     
     return min(pontos, 100)
+
+
+def sugerir_adotantes(escolha):
+        if escolha== 8:
+          print("\nSUGESTÃO DE ADOTANTES COMPATÍVEIS") 
+          with open("data/animais.csv", "r", encoding="utf-8") as arquivo:
+               linhas = arquivo.readlines()
+
+        print("\nANIMAIS DISPONÍVEIS:")
+        for linha in linhas:
+          if linha.startswith("id_animal") or not linha.strip():
+             continue
+          campos = linha.strip().split(",")
+          print(f"  #{campos[0]} - {campos[1]} ({campos[2]})")
+            
+
+        id_buscado = input("\nID DO ANIMAL: ").strip()
+        animal = None
+        for linha in linhas:
+            campos = linha.strip().split(",")
+            if campos[0] == id_buscado:
+                animal = campos
+                break
+
+        if animal is None:
+             print("ANIMAL NÃO ENCONTRADO.")
+             return
+
+            
+        print(f"\n PERFIL DO ADOTANTE IDEAL PARA {animal[1].upper()}")
+        print("(RESPONDA AS PERGUNTAS PARA CALCULAR A COMPATIBILIDADE)\n")
+
+        nome = input("NOME DO ADOTANTE: ").strip()
+            
+        pref = input("PREFERÊNCIA DA ESPÉCIE (cão, gato, outro): ").strip()
+            
+        quintal_resp = input("TEM QUINTAL OU ÁREA EXTERNA?: ").strip().lower()
+        quintal = quintal_resp == "s"
+            
+        criancas_resp = input("TEM CRIANÇAS EM CASA?: ").strip().lower()
+        criancas = criancas_resp == "s"
+        exp_resp = input("TEM EXPERIÊNCIAS COM PETS?: ").strip().lower()
+        experiencia = exp_resp == "s"
+
+        adotante = {
+                "nome": nome,
+                "preferencia_especie": pref,
+                "quintal": quintal,
+                "criancas": criancas,
+                "experiencia": experiencia
+            }
+        score = calcular_compatibilidade(animal, adotante)
+        barra = "█" * (score // 10) + "░" * (10 - score // 10)
+            
+        print(f"\n COMPATIBILIDADE DE {nome} COM {animal[1]}:")
+        print(f"  [{barra}] {score}%")
+           
+        if score >= 70:
+                print("\n  ✓ ÓTIMO. RECOMENDADO PARA ADOÇÃO.")
+        elif score >= 40:
+                print("\n  ~ MÉDIO. VALE UMA CONVERSA.")
+        else:
+                print("\n  ✗ BAIXA. CONSIDERE OUTRO ANIMAL.")
 
 
 def mostrar_cuidados_animais(id_animal):
@@ -491,69 +537,6 @@ def contar_animais(escolha):
             print(f"  Adulto:  {adulto / total * 100:.1f}%")
             print(f"  Idoso:   {idoso / total * 100:.1f}%")
 
-
-
-def sugerir_adotantes(escolha):
-        if escolha== 8:
-          print("\nSUGESTÃO DE ADOTANTES COMPATÍVEIS") 
-          with open("data/animais.csv", "r", encoding="utf-8") as arquivo:
-               linhas = arquivo.readlines()
-
-        print("\nANIMAIS DISPONÍVEIS:")
-        for linha in linhas:
-          if linha.startswith("id_animal") or not linha.strip():
-             continue
-          campos = linha.strip().split(",")
-          print(f"  #{campos[0]} - {campos[1]} ({campos[2]})")
-            
-
-        id_buscado = input("\nID DO ANIMAL: ").strip()
-        animal = None
-        for linha in linhas:
-            campos = linha.strip().split(",")
-            if campos[0] == id_buscado:
-                animal = campos
-                break
-
-        if animal is None:
-             print("ANIMAL NÃO ENCONTRADO.")
-             return
-
-            
-        print(f"\n PERFIL DO ADOTANTE IDEAL PARA {animal[1].upper()}")
-        print("(RESPONDA AS PERGUNTAS PARA CALCULAR A COMPATIBILIDADE)\n")
-
-        nome = input("NOME DO ADOTANTE: ").strip()
-            
-        pref = input("PREFERÊNCIA DA ESPÉCIE (cão, gato, outro): ").strip()
-            
-        quintal_resp = input("TEM QUINTAL OU ÁREA EXTERNA?: ").strip().lower()
-        quintal = quintal_resp == "s"
-            
-        criancas_resp = input("TEM CRIANÇAS EM CASA?: ").strip().lower()
-        criancas = criancas_resp == "s"
-        exp_resp = input("TEM EXPERIÊNCIAS COM PETS?: ").strip().lower()
-        experiencia = exp_resp == "s"
-
-        adotante = {
-                "nome": nome,
-                "preferencia_especie": pref,
-                "quintal": quintal,
-                "criancas": criancas,
-                "experiencia": experiencia
-            }
-        score = calcular_compatibilidade(animal, adotante)
-        barra = "█" * (score // 10) + "░" * (10 - score // 10)
-            
-        print(f"\n COMPATIBILIDADE DE {nome} COM {animal[1]}:")
-        print(f"  [{barra}] {score}%")
-           
-        if score >= 70:
-                print("\n  ✓ ÓTIMO. RECOMENDADO PARA ADOÇÃO.")
-        elif score >= 40:
-                print("\n  ~ MÉDIO. VALE UMA CONVERSA.")
-        else:
-                print("\n  ✗ BAIXA. CONSIDERE OUTRO ANIMAL.")
 
 
 def dashboard(escolha):
