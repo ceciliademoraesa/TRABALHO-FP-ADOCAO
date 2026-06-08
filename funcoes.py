@@ -87,7 +87,7 @@ def editar_animal(escolha):
         encontrado = False
         linhas_novas = []
 
-        def pedir_float_enter(mensagem, atual):
+        def pedir_ou_enter(mensagem, atual):
             while True:
                 entrada = input(mensagem)
 
@@ -117,8 +117,8 @@ def editar_animal(escolha):
                 idade = input(f"Idade [{campos[2]}]: ").lower() or campos[2]
                 especie = input(f"Espécie [{campos[3]}]: ").lower() or campos[3]
                 raca = input(f"Raça [{campos[4]}]: ").lower() or campos[4]
-                data_de_chegada = pedir_float_enter(f"Data de chegada [{campos[5]}]: ",campos[5])
-                estado_de_saude = pedir_float_enter(f"Estado de saúde [{campos[6]}]: ",campos[6])
+                data_de_chegada = pedir_ou_enter(f"Data de chegada [{campos[5]}]: ",campos[5])
+                estado_de_saude = pedir_ou_enter(f"Estado de saúde [{campos[6]}]: ",campos[6])
                 
 
                 nova_linha = (f"{id_edicao},{nome},{idade},{especie},{raca},{data_de_chegada},{estado_de_saude}\n")
