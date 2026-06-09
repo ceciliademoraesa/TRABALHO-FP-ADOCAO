@@ -14,7 +14,7 @@ def cadastar_animal(escolha):
 
         nome = input("Informe o nome do animal: ").lower()
         idade = input("Infome a idade do animal: ").lower()
-        especie = input("Informe a espÉcie do animal: ").lower()
+        especie = input("Informe a espécie do animal: ").lower()
         raca = input("Informe a raça do animal: ").lower()
         opcao_data = int(input("Digite [1] para cadastrar a data manualmente ou [2] para usar a data atual: "))
         
@@ -79,7 +79,7 @@ def editar_animal(escolha):
     if escolha == 3:
         os.system("cls")
 
-        id_edicao = input("Escolha o ID de animal que deseja atualizar: ")
+        id_edicao = input("Escolha o ID do animal que deseja atualizar: ")
 
         with open("data/animais.csv", "r", encoding="utf-8") as arquivo:
             linhas = arquivo.readlines()
@@ -279,27 +279,27 @@ def sugerir_cuidados(escolha):
         print(f"\n  SUGESTÕES PARA {nome.upper()} ({especie}):\n")
 
         if especie == "cão" or especie == "cao":
-            print("  • BANHO E TOSA A CADA 30 DIAS.")
-            print("  • PASSEIOS DIÁRIOS DE PELO MENOS 30 MINUTOS.")
-            print("  • VERMIFUGAÇÃO A CADA 3 MESES.")
-            print("  • VACINAS: V10 ANUAL E ANTIRRÁBICA ANUAL.")
+            print("BANHO E TOSA A CADA 30 DIAS.")
+            print("PASSEIOS DIÁRIOS DE PELO MENOS 30 MINUTOS.")
+            print("VERMIFUGAÇÃO A CADA 3 MESES.")
+            print("VACINAS: V10 ANUAL E ANTIRRÁBICA ANUAL.")
         elif especie == "gato":
-            print("  • CAIXA DE AREIA LIMPA DIARIAMENTE.")
-            print("  • ARRANHADORES E BRINQUEDOS.")
-            print("  • VACINAS: V4 FELINA ANUAL E ANTIRRÁBICA ANUAL.")
-            print("  • VERMIFUGAÇÃO A CADA 3 MESES.")
+            print("CAIXA DE AREIA LIMPA DIARIAMENTE.")
+            print("ARRANHADORES E BRINQUEDOS.")
+            print("VACINAS: V4 FELINA ANUAL E ANTIRRÁBICA ANUAL.")
+            print("VERMIFUGAÇÃO A CADA 3 MESES.")
         else:
-            print("  • CONSULTE UM VETERINÁRIO ESPECIALISTA NA ESPÉCIE.")
-            print("  • VERIFIQUE NECESSIDADES ESPECÍFICAS DE DIETA E ESPAÇO.")
+            print("CONSULTE UM VETERINÁRIO ESPECIALISTA NA ESPÉCIE.")
+            print("VERIFIQUE NECESSIDADES ESPECÍFICAS DE DIETA E ESPAÇO.")
 
         if idade <= 1:
-            print("\n  • FILHOTE: MANTER VACINAS E VERMIFUGAÇÃO EM DIA.")
-            print("  • ALIMENTAÇÃO ESPECÍFICA PARA FILHOTES.")
-            print("  • SOCIALIZAÇÃO PRECOCE É FUNDAMENTAL.")
+            print("\nFILHOTE: MANTER VACINAS E VERMIFUGAÇÃO EM DIA.")
+            print("ALIMENTAÇÃO ESPECÍFICA PARA FILHOTES.")
+            print("SOCIALIZAÇÃO PRECOCE É FUNDAMENTAL.")
         elif idade >= 8:
-            print("\n  • SÊNIOR: CHECK-UP VETERINÁRIO A CADA 6 MESES.")
-            print("  • ATENÇÃO A ARTICULAÇÕES E PESO.")
-            print("  • DIETA ADAPTADA PARA A IDADE.")
+            print("\nSÊNIOR: CHECK-UP VETERINÁRIO A CADA 6 MESES.")
+            print("ATENÇÃO A ARTICULAÇÕES E PESO.")
+            print("DIETA ADAPTADA PARA A IDADE.")
 
         try:
             saude = int(animal[6])
@@ -407,11 +407,11 @@ def sugerir_adotantes(escolha):
         print(f"  [{barra}] {score}%")
            
         if score >= 70:
-                print("\n  ✓ ÓTIMO. RECOMENDADO PARA ADOÇÃO.")
+                print("\n  ÓTIMO. RECOMENDADO PARA ADOÇÃO.")
         elif score >= 40:
-                print("\n  ~ MÉDIO. VALE UMA CONVERSA.")
+                print("\n  MÉDIO. VALE UMA CONVERSA.")
         else:
-                print("\n  ✗ BAIXA. CONSIDERE OUTRO ANIMAL.")
+                print("\n  BAIXA. CONSIDERE OUTRO ANIMAL.")
 
 
 def mostrar_cuidados_animais(id_animal):

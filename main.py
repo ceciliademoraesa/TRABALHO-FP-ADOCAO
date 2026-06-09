@@ -1,6 +1,7 @@
 import menu as mn
 import funcoes as fc
 import os
+
 while True:
     escolha = int(input(mn.MENU_PRINCIPAL))
     if escolha == 1:
